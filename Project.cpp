@@ -2,7 +2,9 @@
 #include <iostream>
 #include <string>
 #include <cmath>
-#include <algorithm>
+#include <cstdlib>  // For system function
+#include <chrono>    // For delay
+#include <thread>    // For delay
 using namespace std;
 
 //--System Integrity & Cross platform support
@@ -36,6 +38,31 @@ void printColor(const string& color, const string& text, bool bold = false) {
 #endif 
 }
 
+void Limiter() {
+    printColor(RED, "Limiter is Active", true);
+    for (int i = 0; i < 3; ++i) {
+// ---  -        
+        cout << " -";
+        this_thread::sleep_for(chrono::milliseconds(200));
+        cout << "\b\b";
+        cout.flush();
+// --- /
+        cout << " /";
+        this_thread::sleep_for(chrono::milliseconds(200));
+        cout << "\b\b";
+        cout.flush();
+// --- |
+        cout << " |";
+        this_thread::sleep_for(chrono::milliseconds(200));
+        cout << "\b\b";
+        cout.flush();
+// --- \\
+        cout << " \\";
+        this_thread::sleep_for(chrono::milliseconds(200));
+        cout << "\b\b";
+        cout.flush(); }
+        this_thread::sleep_for(chrono::milliseconds(200)); }
+
 //--Ergonomics
 void ClearTerminal() {
 #ifdef _WIN32
@@ -56,18 +83,19 @@ do{ displayMenu();
     if (cin.fail()) {
         cin.clear();
         cin.ignore(256, '\n');
-        cout << "Invalid input. Please enter a number (1-7): ";
+        cout << "Invalid input. Please enter a number (1-7): "; Limiter(); ClearTerminal();
         continue; }
 
     switch (choice){
-        case 1: addStudent();                                    break;
-        case 2: registerSubjects();                              break;
-        case 3: changeSubjects();                                break;
-        case 4: addNewSubjectCode();                             break;
-        case 5: viewEnrolledCourses();                           break;
-        case 6: calculateGPA();                                  break;
-        case 7:  cout << "Exiting the program. Goodbye!\n";      break;
-        default: cout << "Invalid choice. Please try again.\n";  break; }} 
+    case 1: addStudent();                                    break;
+    case 2: registerSubjects();                              break;
+    case 3: changeSubjects();                                break;
+    case 4: addNewSubjectCode();                             break;
+    case 5: viewEnrolledCourses();                           break;
+    case 6: calculateGPA();                                  break;
+//------    
+    case 7:  cout << "Exiting the program. Goodbye!\n";     Limiter(); ClearTerminal();  break;
+    default: cout << "Invalid choice. Please try again.\n"; Limiter(); ClearTerminal();  break; }} 
 while (choice != 7);
 return 0;}
 
