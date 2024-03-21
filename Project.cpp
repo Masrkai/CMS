@@ -40,28 +40,28 @@ void printColor(const string& color, const string& text, bool bold = false) {
 
 void Limiter() {
     printColor(RED, "Limiter is Active", true);
-    for (int i = 0; i < 3; ++i) {
+    for (int i = 0; i <= 9; ++i) {
 // ---  -        
         cout << " -";
-        this_thread::sleep_for(chrono::milliseconds(200));
+        this_thread::sleep_for(chrono::milliseconds(100));
         cout << "\b\b";
         cout.flush();
 // --- /
         cout << " /";
-        this_thread::sleep_for(chrono::milliseconds(200));
+        this_thread::sleep_for(chrono::milliseconds(100));
         cout << "\b\b";
         cout.flush();
 // --- |
         cout << " |";
-        this_thread::sleep_for(chrono::milliseconds(200));
+        this_thread::sleep_for(chrono::milliseconds(100));
         cout << "\b\b";
         cout.flush();
 // --- \\
         cout << " \\";
-        this_thread::sleep_for(chrono::milliseconds(200));
+        this_thread::sleep_for(chrono::milliseconds(100));
         cout << "\b\b";
         cout.flush(); }
-        this_thread::sleep_for(chrono::milliseconds(200)); }
+        this_thread::sleep_for(chrono::milliseconds(100)); }
 
 //--Ergonomics
 void ClearTerminal() {
