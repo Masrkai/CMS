@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.5)
+set(CMAKE_CXX_STANDARD 11)
+project(College_Managment_System)
+add_executable(College_Managment_System Project.cpp )
+install(TARGETS College_Managment_System RUNTIME DESTINATION bin)
