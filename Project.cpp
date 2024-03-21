@@ -12,6 +12,8 @@ using namespace std;
 #include <windows.h>
 #else
 #include <unistd.h>
+#endif
+
 #define RESET   "\033[0m"
 #define RED     "\033[31m"
 #define GREEN   "\033[32m"
@@ -20,7 +22,6 @@ using namespace std;
 #define MAGENTA "\033[35m"
 #define CYAN    "\033[36m"
 #define BOLD    "\033[1m"
-#endif
 
 //--Function to print colored and bold text
 void printColor(const string& color, const string& text, bool bold = false) {
