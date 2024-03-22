@@ -10,11 +10,12 @@ using namespace std;
 //--System Integrity & Cross platform support
 #ifdef _WIN32
 #include <windows.h>
+#define RESET_COLOR SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE)
 #else
-#include <unistd.h>
+#define RESET_COLOR "\033[0m"
 #endif
 
-#define RESET   "\033[0m"
+// Define color macros
 #define RED     "\033[31m"
 #define GREEN   "\033[32m"
 #define YELLOW  "\033[33m"
@@ -23,21 +24,12 @@ using namespace std;
 #define CYAN    "\033[36m"
 #define BOLD    "\033[1m"
 
-//--Function to print colored and bold text
+// Function to print colored and bold text
 void printColor(const string& color, const string& text, bool bold = false) {
-#ifdef _WIN32
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleTextAttribute(hConsole, FOREGROUND_INTENSITY);
-#endif
-
-    if (bold) { cout << BOLD; } // Use the BOLD macro for ANSI escape sequence for bold text
-    cout << color << text << RESET;
-    if (bold) { cout << RESET; } // Reset the text attributes after bold text
-
-#ifdef _WIN32
-    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-#endif 
+    // Print color and bold attributes
+    cout << (bold ? BOLD : "") << color << text << RESET_COLOR;
 }
+
 
 void Limiter() {
     printColor(RED, "Limiter is Active", true);
@@ -77,8 +69,7 @@ void ClearTerminal() {
 void displayMenu(); void addStudent(); void registerSubjects(); void calculateGPA();
 void changeSubjects(); void addNewSubjectCode(); void viewEnrolledCourses();
 
-int main() { int choice;
-
+int main(){ int choice;
 do{ displayMenu();
     cout << "Enter your choice: "; cin >> choice;
     if (cin.fail()) {
@@ -96,7 +87,7 @@ do{ displayMenu();
     case 6: calculateGPA();                                  break;
 //------    
     case 7:  cout << "Exiting the program. Goodbye!\n";     Limiter(); ClearTerminal();  break;
-    default: cout << "Invalid choice. Please try again.\n"; Limiter(); ClearTerminal();  break; }} 
+    default: cout << "Invalid choice. Please try again."; Limiter(); ClearTerminal();  break; }} 
 while (choice != 7);
 return 0;}
 
