@@ -7,6 +7,15 @@
 #include <thread>    // For delay
 using namespace std;
 
+//--Ergonomics
+void ClearTerminal() {
+#ifdef _WIN32
+    system("cls");
+#else
+    system("clear");
+#endif
+}     
+
 //--System Integrity & Cross platform support
 #ifdef _WIN32
 #include <windows.h>
@@ -27,9 +36,7 @@ using namespace std;
 // Function to print colored and bold text
 void printColor(const string& color, const string& text, bool bold = false) {
     // Print color and bold attributes
-    cout << (bold ? BOLD : "") << color << text << RESET_COLOR;
-}
-
+    cout << (bold ? BOLD : "") << color << text << RESET_COLOR; }
 
 void Limiter() {
     printColor(RED, "Limiter is Active", true);
@@ -56,15 +63,6 @@ void Limiter() {
         cout.flush(); }
         this_thread::sleep_for(chrono::milliseconds(100)); }
 
-//--Ergonomics
-void ClearTerminal() {
-#ifdef _WIN32
-    system("cls");
-#else
-    system("clear");
-#endif
-}     
-
 // Function prototypes //Why ? because in our approach we are putting functions after main for cleaner code
 void displayMenu(); void addStudent(); void registerSubjects(); void calculateGPA();
 void changeSubjects(); void addNewSubjectCode(); void viewEnrolledCourses();
@@ -87,7 +85,7 @@ do{ displayMenu();
     case 6: calculateGPA();                                  break;
 //------    
     case 7:  cout << "Exiting the program. Goodbye!\n";     Limiter(); ClearTerminal();  break;
-    default: cout << "Invalid choice. Please try again."; Limiter(); ClearTerminal();  break; }} 
+    default: cout << "Invalid choice. Please try again ~ "; Limiter(); ClearTerminal();  break; }} 
 while (choice != 7);
 return 0;}
 
