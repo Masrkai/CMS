@@ -1,7 +1,3 @@
 .vscode
 .cache
 build
-build/.ninja_deps
-build/.ninja_log
-build/CMakeFiles
-build/.cmake
