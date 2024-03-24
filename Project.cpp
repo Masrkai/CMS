@@ -7,9 +7,6 @@
 #include <thread>    // For delay
 using namespace std;
 
-
-
-
 //--Ergonomics
 void ClearTerminal() {
 #ifdef _WIN32
