@@ -1,7 +1,0 @@
-/home/masrkai/Documents/College/Current/OOP/Project/VSIMPLIFIED/build/CMakeFiles/College_Managment_System.dir
-/home/masrkai/Documents/College/Current/OOP/Project/VSIMPLIFIED/build/CMakeFiles/edit_cache.dir
-/home/masrkai/Documents/College/Current/OOP/Project/VSIMPLIFIED/build/CMakeFiles/rebuild_cache.dir
-/home/masrkai/Documents/College/Current/OOP/Project/VSIMPLIFIED/build/CMakeFiles/list_install_components.dir
-/home/masrkai/Documents/College/Current/OOP/Project/VSIMPLIFIED/build/CMakeFiles/install.dir
-/home/masrkai/Documents/College/Current/OOP/Project/VSIMPLIFIED/build/CMakeFiles/install/local.dir
-/home/masrkai/Documents/College/Current/OOP/Project/VSIMPLIFIED/build/CMakeFiles/install/strip.dir

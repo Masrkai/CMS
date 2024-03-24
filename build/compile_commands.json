@@ -1,8 +1,0 @@
-[
-{
-  "directory": "/home/masrkai/Documents/College/Current/OOP/Project/VSIMPLIFIED/build",
-  "command": "/usr/bin/g++ -g -std=gnu++11 -o CMakeFiles/College_Managment_System.dir/Project.cpp.o -c /home/masrkai/Documents/College/Current/OOP/Project/VSIMPLIFIED/Project.cpp",
-  "file": "/home/masrkai/Documents/College/Current/OOP/Project/VSIMPLIFIED/Project.cpp",
-  "output": "CMakeFiles/College_Managment_System.dir/Project.cpp.o"
-}
-]
