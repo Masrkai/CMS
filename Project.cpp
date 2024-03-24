@@ -7,6 +7,9 @@
 #include <thread>    // For delay
 using namespace std;
 
+
+
+
 //--Ergonomics
 void ClearTerminal() {
 #ifdef _WIN32
@@ -40,7 +43,7 @@ void printColor(const string& color, const string& text, bool bold = false) {
 
 void Limiter() {
     printColor(RED, "Limiter is Active", true);
-    for (int i = 0; i <= 9; ++i) {
+    for (int i = 0; i <= 9; ++i){
 // ---  -        
         cout << " -";
         this_thread::sleep_for(chrono::milliseconds(100));
