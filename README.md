@@ -1,3 +1,3 @@
-# CSE_15#
-This project is made in S #2 as a Project in OOP programming using C++
+# College Managment System
+This project is made in Semester_#2 as utilizing OOP style programming in C++
 
