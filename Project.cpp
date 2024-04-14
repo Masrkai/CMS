@@ -13,14 +13,18 @@ void ClearTerminal() {  // Ergonomics By MASRKAI
 #else
     system("clear");
 #endif
-}
+}                      ///MASRKAI
+/////////////////////////////////
 
-#ifdef _WIN32         //--System Integrity & Cross platform support
+
+#ifdef _WIN32       //--System Integrity & Cross platform support
 #include <windows.h>
 #define RESET_COLOR SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE)
 #else
 #define RESET_COLOR "\033[0m"
-#endif
+#endif                                                                                                                   ///MASRKAI
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 // Function to print colored and bold text
 void printColor(const string& color, const string& text, bool bold = false) {
@@ -33,6 +37,7 @@ void printColor(const string& color, const string& text, bool bold = false) {
 #define BOLD    "\033[1m"
                 cout << (bold ? BOLD : "") << color << text << RESET_COLOR; } ///MASRKAI
 ////////////////////////////////////////////////////////////////////////////////////////
+
 
 void Limiter() {
     printColor(RED, "Limiter is Active", true);
@@ -53,8 +58,9 @@ void Limiter() {
         this_thread::sleep_for(chrono::milliseconds(100));
         cout << "\b\b";
         cout.flush(); }
-        this_thread::sleep_for(chrono::milliseconds(100));
-}
+        this_thread::sleep_for(chrono::milliseconds(100)); }                                         ///MASRKAI
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 // Function to display the menu
 void displayMenu() {
@@ -65,8 +71,9 @@ void displayMenu() {
     printColor(BLUE ,"4. Add new subject code\n",false);
     printColor(BLUE ,"5. View enrolled courses for a student\n",false);
     printColor(BLUE ,"6. Calculate GPA for a student\n",false);
-    printColor(BLUE ,"7. Exit\n",false);
-}
+    printColor(BLUE ,"7. Exit\n",false); }                   ///MASRKAI
+///////////////////////////////////////////////////////////////////////
+
 
 const int MAX_STUDENTS = 100;   // Maximum number of students
 const int NUM_FACULTIES = 4;    // Number of predefined faculties
