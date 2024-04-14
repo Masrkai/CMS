@@ -7,87 +7,54 @@
 #include <thread>    // For delay
 using namespace std;
 
-//--Ergonomics
-void ClearTerminal() {
+void ClearTerminal() {  // Ergonomics By MASRKAI
 #ifdef _WIN32
     system("cls");
 #else
     system("clear");
 #endif
-}     
+}
 
-//--System Integrity & Cross platform support
-#ifdef _WIN32
+#ifdef _WIN32         //--System Integrity & Cross platform support
 #include <windows.h>
 #define RESET_COLOR SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE)
 #else
 #define RESET_COLOR "\033[0m"
 #endif
 
-// Define color macros
-#define RED     "\033[31m"
+// Function to print colored and bold text
+void printColor(const string& color, const string& text, bool bold = false) {
+#define RED     "\033[31m" // Defining color macros
 #define GREEN   "\033[32m"
 #define YELLOW  "\033[33m"
 #define BLUE    "\033[34m"
 #define MAGENTA "\033[35m"
 #define CYAN    "\033[36m"
 #define BOLD    "\033[1m"
-
-// Function to print colored and bold text
-void printColor(const string& color, const string& text, bool bold = false) {
-    // Print color and bold attributes
-    cout << (bold ? BOLD : "") << color << text << RESET_COLOR; }
+                cout << (bold ? BOLD : "") << color << text << RESET_COLOR; } ///MASRKAI
+////////////////////////////////////////////////////////////////////////////////////////
 
 void Limiter() {
     printColor(RED, "Limiter is Active", true);
     for (int i = 0; i <= 9; ++i){
-// ---  -        
-        cout << " -";
+        cout << " -"; // --- -
         this_thread::sleep_for(chrono::milliseconds(100));
         cout << "\b\b";
         cout.flush();
-// --- /
-        cout << " /";
+        cout << " /"; // --- /
         this_thread::sleep_for(chrono::milliseconds(100));
         cout << "\b\b";
         cout.flush();
-// --- |
-        cout << " |";
+        cout << " |"; // --- |
         this_thread::sleep_for(chrono::milliseconds(100));
         cout << "\b\b";
         cout.flush();
-// --- \\
-        cout << " \\";
+//      cout << " \\"; // --- "\\"  BLOCKING OUT FOR ANIMATION LIKE BEHAVIOR literally a bug into a feature XD
         this_thread::sleep_for(chrono::milliseconds(100));
         cout << "\b\b";
         cout.flush(); }
-        this_thread::sleep_for(chrono::milliseconds(100)); }
-
-// Function prototypes //Why ? because in our approach we are putting functions after main for cleaner code
-void displayMenu(); void addStudent(); void registerSubjects(); void calculateGPA();
-void changeSubjects(); void addNewSubjectCode(); void viewEnrolledCourses();
-
-int main(){ int choice;
-do{ displayMenu();
-    cout << "Enter your choice: "; cin >> choice;
-    if (cin.fail()) {
-        cin.clear();
-        cin.ignore(256, '\n');
-        cout << "Invalid input. Please enter a number (1-7): "; Limiter(); ClearTerminal();
-        continue; }
-
-    switch (choice){
-    case 1: addStudent();                                    break;
-    case 2: registerSubjects();                              break;
-    case 3: changeSubjects();                                break;
-    case 4: addNewSubjectCode();                             break;
-    case 5: viewEnrolledCourses();                           break;
-    case 6: calculateGPA();                                  break;
-//------    
-    case 7:  cout << "Exiting the program. Goodbye!\n";     Limiter(); ClearTerminal();  break;
-    default: cout << "Invalid choice. Please try again ~ "; Limiter(); ClearTerminal();  break; }} 
-while (choice != 7);
-return 0;}
+        this_thread::sleep_for(chrono::milliseconds(100));
+}
 
 // Function to display the menu
 void displayMenu() {
@@ -98,61 +65,69 @@ void displayMenu() {
     printColor(BLUE ,"4. Add new subject code\n",false);
     printColor(BLUE ,"5. View enrolled courses for a student\n",false);
     printColor(BLUE ,"6. Calculate GPA for a student\n",false);
-    printColor(BLUE ,"7. Exit\n",false); }
+    printColor(BLUE ,"7. Exit\n",false);
+}
 
-// Define the Student class
-class Student {
-private:
-   string studentID, name, email;
-   string* enrolledCourses; //--Pointer to the dynamically allocated "array" of course codes
-   int courseCount; //--Number of enrolled courses
-public:
-//--Constructor x Initializer 
-   Student(string id, string n, string e) : studentID(id), name(n), email(e), enrolledCourses(nullptr), courseCount(0){}
+const int MAX_STUDENTS = 100;   // Maximum number of students
+const int NUM_FACULTIES = 4;    // Number of predefined faculties
+string studentIDs[MAX_STUDENTS], studentNames[MAX_STUDENTS];
+string predefinedFaculties[NUM_FACULTIES] = { "Computer Science", "Arts and Design", "Engineering", "Human Rights" }; ///MASRKAI
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//--Destructor to deallocate memory  //why: "Advanced approach" For memory safety & efficiency // why: BECAUSE I CAN'T USE #include <vector> yet 
-//why: because we did't use it ever in lectures so i don't expect us to be allowed to use it
-   ~Student(){ delete[] enrolledCourses; }
-   
-//--Fn to add a course
-void addCourse(string course) {
-//--Increment the course count
-        courseCount++;
-//--Create a new dynamic array to store enrolled courses
-    string* newCourses = new string[courseCount];
 
-//--Copy existing enrolled courses to the new array
-    for (int i = 0; i < courseCount - 1; ++i) {newCourses[i] = enrolledCourses[i];}
+//Fn to handle faculty selection
+string chooseFaculty(const string faculties[], int numFaculties) {
 
-//--Add the new course to the end of the array
-    newCourses[courseCount - 1] = course;
 
-//--Deallocate memory for the old array
-    delete[] enrolledCourses;
+  int facultyChoice; string newFaculty; bool validChoice = true;
+  cout << "  Faculty:\n";
 
-//--Update the enrolled courses pointer to point to the new array
-        enrolledCourses = newCourses; }
+  for (int j = 0; j < numFaculties; ++j) { cout << "    " << j + 1 << ". " << faculties[j] << endl; }
+  cout << "    Enter a number (1-" << numFaculties << ") to choose a faculty or enter a new faculty name: ";
 
-//fn to display enrolled courses
-void viewCourses() {cout << "Enrolled Courses:\n";
-   for (int i = 0; i < courseCount; ++i) { cout << enrolledCourses[i] << endl; } } };
+  // Input validation loop
+  while (!(cin >> facultyChoice) || (facultyChoice < 1 || facultyChoice > numFaculties)) { cin.clear();
+    cout << "Invalid faculty choice. Please enter a number between 1 and " << numFaculties; Limiter();
+    }
+
+  if (facultyChoice > 0) {
+    return faculties[facultyChoice - 1];
+    } else {
+    cin.ignore(); // Ignore newline character after number input
+    getline(cin, newFaculty);
+    return newFaculty;
+   }
+}
 
 //fn to add a new student
 void addStudent() {
-  string id, name, email;
-    cout << "Enter student ID: "; cin >> id;
-    cout << "Enter student name: "; cin.ignore(); // Ignore newline character from previous input //SELF LEARNING
 
-//--FIX-ED conflict with when using specific names voided by using getline 
-    getline(cin, name);
-    cout << "Enter student email: "; cin >> email;
+  int numStudents , ACTUAL_REGISTERS;
+  cout << "Enter the number of students you want to register (up to " << MAX_STUDENTS << "): ";   // Input validation for number of students
+  cin >> numStudents;
 
-//--Add a new Student using the constructor
-    Student newStudent(id, name, email);
+while (numStudents < 1 || numStudents > MAX_STUDENTS) {                                         // Check Function
+    cout << "Invalid number of students. Please enter a value between 1 and " << MAX_STUDENTS << ": ";
+    cin >> numStudents;
+}
 
-//--Display confirmation message
-    cout << "Student added successfully!\n"; }         ///MASRKAI
-////////////////////////////////////////////////////////////////
+// Loop to get student information
+for (int i = 0; i < numStudents; ++i) {
+    cout << "\nEnter information for student " << i + 1 << ":" << endl;
+    cout << "  ID: ";
+    cin >> studentIDs[i];
+    cout << "  Name: ";
+    cin.ignore(); // Ignore newline character
+    getline(cin, studentNames[i]);
+    studentNames[i] = chooseFaculty(predefinedFaculties, NUM_FACULTIES); // Faculty selection with helper function
+    ACTUAL_REGISTERS++;
+}
+
+  cout << "\nStudent Information:\n";   // Display student information
+  for (int i = 0; i < ACTUAL_REGISTERS; ++i) {
+    cout << "ID: " << studentIDs[ACTUAL_REGISTERS] << ", Name: " << studentNames[ACTUAL_REGISTERS] << endl; }  ///MASRKAI
+}//////////////////////////////////////////////////////////////////////////////////////////
+
 
 // Define the Course class
 class Course {
@@ -186,22 +161,6 @@ void registerSubjects() { cout << "Registering subjects for a student...\n";
 ////////////////////////////////////////////////////////////////
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //--Fn to change subjects for a student
 void changeSubjects() {
     // Implementation to change subjects for a student
@@ -225,3 +184,25 @@ void calculateGPA() {
     // Implementation to calculate GPA for a student
     cout << "Calculating GPA for a student...\n";
 }
+
+
+
+int main(){ int choice;
+do{ displayMenu();
+    cout << "Enter your choice: "; cin >> choice;
+    if (cin.fail()) {
+        cin.clear();
+        cin.ignore(256, '\n');
+        cout << "Invalid input. Please enter a number (1-7): "; Limiter(); ClearTerminal();
+        continue; }
+
+    switch (choice){
+    case 1: addStudent();                                                                break;
+    case 2: registerSubjects();                                                          break;
+    case 3: changeSubjects();                                                            break;
+    case 4: addNewSubjectCode();                                                         break;
+    case 5: viewEnrolledCourses();                                                       break;
+    case 6: calculateGPA();                                                              break;
+    case 7:  cout << "Exiting the program. Goodbye!\n";     Limiter(); ClearTerminal();  break;
+    default: cout << "Invalid choice. Please try again ~ "; Limiter(); ClearTerminal();  break;
+    } } while (choice != 7); return 0;}
