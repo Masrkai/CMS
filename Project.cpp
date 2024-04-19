@@ -1,3 +1,4 @@
+//College-management-System
 //Libraries used
 #include <iostream>
 #include <string>
@@ -29,7 +30,7 @@ void ClearTerminal() {  // Ergonomics By MASRKAI
 // Function to print colored and bold text
 void printColor(const string& color, const string& text, bool bold = false) {
 #define RED     "\033[31m" // Defining color macros
-#define GREEN   "\033[32m"
+#define GREEN   "\033[32m" 
 #define YELLOW  "\033[33m"
 #define BLUE    "\033[34m"
 #define MAGENTA "\033[35m"
@@ -39,7 +40,7 @@ void printColor(const string& color, const string& text, bool bold = false) {
 ////////////////////////////////////////////////////////////////////////////////////////
 
 
-void Limiter() {
+void Limiter() { 
     printColor(RED, "Limiter is Active", true);
     for (int i = 0; i <= 9; ++i){
         cout << " -"; // --- -
@@ -85,7 +86,6 @@ string predefinedFaculties[NUM_FACULTIES] = { "Computer Science", "Arts and Desi
 //Fn to handle faculty selection
 string chooseFaculty(const string faculties[], int numFaculties) {
 
-
   int facultyChoice; string newFaculty; bool validChoice = true;
   cout << "  Faculty:\n";
 
@@ -94,17 +94,15 @@ string chooseFaculty(const string faculties[], int numFaculties) {
 
   // Input validation loop
   while (!(cin >> facultyChoice) || (facultyChoice < 1 || facultyChoice > numFaculties)) { cin.clear();
-    cout << "Invalid faculty choice. Please enter a number between 1 and " << numFaculties; Limiter();
-    }
+    cout << "Invalid faculty choice. Please enter a number between 1 and " << numFaculties; Limiter(); }
 
   if (facultyChoice > 0) {
     return faculties[facultyChoice - 1];
     } else {
     cin.ignore(); // Ignore newline character after number input
     getline(cin, newFaculty);
-    return newFaculty;
-   }
-}
+    return newFaculty; } }
+
 
 //fn to add a new student
 void addStudent() {
@@ -127,8 +125,8 @@ for (int i = 0; i < numStudents; ++i) {
     cin.ignore(); // Ignore newline character
     getline(cin, studentNames[i]);
     studentNames[i] = chooseFaculty(predefinedFaculties, NUM_FACULTIES); // Faculty selection with helper function
-    ACTUAL_REGISTERS++;
-}
+    ACTUAL_REGISTERS++; }
+
 
   cout << "\nStudent Information:\n";   // Display student information
   for (int i = 0; i < ACTUAL_REGISTERS; ++i) {
@@ -152,7 +150,6 @@ public:
 
 //--Fn to register subjects for a student
 void registerSubjects() { cout << "Registering subjects for a student...\n";
-
 //--Getting input from user for course details
  string code, name, description, instructor;
     cout << "Enter course code: "; cin >> code;
@@ -196,7 +193,9 @@ void calculateGPA() {
 
 int main(){ int choice;
 do{ displayMenu();
+
     cout << "Enter your choice: "; cin >> choice;
+
     if (cin.fail()) {
         cin.clear();
         cin.ignore(256, '\n');
