@@ -17,7 +17,6 @@ void ClearTerminal() {  // Ergonomics By MASRKAI
 }                      ///MASRKAI
 /////////////////////////////////
 
-
 #ifdef _WIN32       //--System Integrity & Cross platform support
 #include <windows.h>
 #define RESET_COLOR SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE)
@@ -25,7 +24,6 @@ void ClearTerminal() {  // Ergonomics By MASRKAI
 #define RESET_COLOR "\033[0m"
 #endif                                                                                                                   ///MASRKAI
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 // Function to print colored and bold text
 void printColor(const string& color, const string& text, bool bold = false) {
@@ -73,7 +71,7 @@ void displayMenu() {
     printColor(BLUE ,"5. View enrolled courses for a student\n",false);
     printColor(BLUE ,"6. Calculate GPA for a student\n",false);
     printColor(BLUE ,"7. Exit\n",false); }                   ///MASRKAI
-///////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 
 
 const int MAX_STUDENTS = 100;   // Maximum number of students
@@ -191,24 +189,29 @@ void calculateGPA() {
 
 
 
-int main(){ int choice;
-do{ displayMenu();
+int main(){
+  int choice;
+  do{ displayMenu();
+  cout << "Enter your choice: "; cin >> choice;
 
-    cout << "Enter your choice: "; cin >> choice;
+   if (cin.fail()) {
+       cin.clear();
+       cin.ignore(256, '\n');
+       cout << "Invalid input. Please enter a number (1-7): "; Limiter(); ClearTerminal();
+       continue;
+   }
 
-    if (cin.fail()) {
-        cin.clear();
-        cin.ignore(256, '\n');
-        cout << "Invalid input. Please enter a number (1-7): "; Limiter(); ClearTerminal();
-        continue; }
-
-    switch (choice){
-    case 1: addStudent();                                                                break;
-    case 2: registerSubjects();                                                          break;
-    case 3: changeSubjects();                                                            break;
-    case 4: addNewSubjectCode();                                                         break;
-    case 5: viewEnrolledCourses();                                                       break;
-    case 6: calculateGPA();                                                              break;
-    case 7:  cout << "Exiting the program. Goodbye!\n";     Limiter(); ClearTerminal();  break;
-    default: cout << "Invalid choice. Please try again ~ "; Limiter(); ClearTerminal();  break;
-    } } while (choice != 7); return 0;}
+     switch (choice){
+     case 1: addStudent();                                                                break;
+     case 2: registerSubjects();                                                          break;
+     case 3: changeSubjects();                                                            break;
+     case 4: addNewSubjectCode();                                                         break;
+     case 5: viewEnrolledCourses();                                                       break;
+     case 6: calculateGPA();                                                              break;
+     case 7:  cout << "Exiting the program. Goodbye!\n";     Limiter(); ClearTerminal();  break;
+     default: cout << "Invalid choice. Please try again ~ "; Limiter(); ClearTerminal();  break;
+     }
+}
+  while (choice != 7);
+  return 0;
+}
