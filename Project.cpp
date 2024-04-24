@@ -58,12 +58,12 @@ void Limiter() {
         cout << "\b\b";
         cout.flush(); }
         this_thread::sleep_for(chrono::milliseconds(100)); }                                         ///MASRKAI
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 // Function to display the menu
 void displayMenu() {
-    printColor(GREEN,"\n***** Menu *****\n",true);
+    printColor(GREEN,"\n***** Welcome to GU SIS *****\n",true);
     printColor(BLUE ,"1. Add new student\n",false);
     printColor(BLUE ,"2. Register subjects for a student\n",false);
     printColor(BLUE ,"3. Change subjects for a student\n",false);
@@ -71,45 +71,77 @@ void displayMenu() {
     printColor(BLUE ,"5. View enrolled courses for a student\n",false);
     printColor(BLUE ,"6. Calculate GPA for a student\n",false);
     printColor(BLUE ,"7. Exit\n",false); }                   ///MASRKAI
-/////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
 
 
 const int MAX_STUDENTS = 100;   // Maximum number of students
+string studentIDs[MAX_STUDENTS], studentNames[MAX_STUDENTS] , studentFaculty[MAX_STUDENTS];
+
 const int NUM_FACULTIES = 4;    // Number of predefined faculties
-string studentIDs[MAX_STUDENTS], studentNames[MAX_STUDENTS];
-string predefinedFaculties[NUM_FACULTIES] = { "Computer Science", "Arts and Design", "Engineering", "Human Rights" }; ///MASRKAI
+string Pre_Faculties[NUM_FACULTIES] = { "Computer Science", "Engineering", "Human Rights", "Arts and Design" }; ///MASRKAI
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
 
 
 //Fn to handle faculty selection
 string chooseFaculty(const string faculties[], int numFaculties) {
+  int facultyChoice;
+  bool validChoice = true;
 
-  int facultyChoice; string newFaculty; bool validChoice = true;
   cout << "  Faculty:\n";
 
-  for (int j = 0; j < numFaculties; ++j) { cout << "    " << j + 1 << ". " << faculties[j] << endl; }
-  cout << "    Enter a number (1-" << numFaculties << ") to choose a faculty or enter a new faculty name: ";
+  for (int j = 0; j < numFaculties; ++j) {
+    cout << "    " << j + 1 << ". " << faculties[j] << endl;
+  }
 
-  // Input validation loop
-  while (!(cin >> facultyChoice) || (facultyChoice < 1 || facultyChoice > numFaculties)) { cin.clear();
-    cout << "Invalid faculty choice. Please enter a number between 1 and " << numFaculties; Limiter(); }
+  cout << "    Enter a number (1-" << numFaculties << ") to choose a faculty: ";
 
-  if (facultyChoice > 0) {
-    return faculties[facultyChoice - 1];
-    } else {
-    cin.ignore(); // Ignore newline character after number input
-    getline(cin, newFaculty);
-    return newFaculty; } }
+  // Input validation loop for numbered choices
+  while (!(cin >> facultyChoice) || (facultyChoice < 1 || facultyChoice > numFaculties)) {
+    cin.clear();
+    cout << "Invalid faculty choice. Please enter a number between 1 and " << numFaculties << endl;
+  }
+
+  return faculties[facultyChoice - 1];
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //fn to add a new student
 void addStudent() {
 
-  int numStudents , ACTUAL_REGISTERS;
+  int numStudents , ACTUAL_REGISTERS = 0;
   cout << "Enter the number of students you want to register (up to " << MAX_STUDENTS << "): ";   // Input validation for number of students
   cin >> numStudents;
 
-while (numStudents < 1 || numStudents > MAX_STUDENTS) {                                         // Check Function
+while (numStudents < 1 || numStudents > MAX_STUDENTS) {          // Check Function
     cout << "Invalid number of students. Please enter a value between 1 and " << MAX_STUDENTS << ": ";
     cin >> numStudents;
 }
@@ -122,14 +154,27 @@ for (int i = 0; i < numStudents; ++i) {
     cout << "  Name: ";
     cin.ignore(); // Ignore newline character
     getline(cin, studentNames[i]);
-    studentNames[i] = chooseFaculty(predefinedFaculties, NUM_FACULTIES); // Faculty selection with helper function
+
+    studentFaculty[i] = chooseFaculty(Pre_Faculties, NUM_FACULTIES); // Faculty selection with helper function
     ACTUAL_REGISTERS++; }
 
 
-  cout << "\nStudent Information:\n";   // Display student information
+  cout << "\nStudents Information:\n";   // Display student information
   for (int i = 0; i < ACTUAL_REGISTERS; ++i) {
-    cout << "ID: " << studentIDs[ACTUAL_REGISTERS] << ", Name: " << studentNames[ACTUAL_REGISTERS] << endl; }  ///MASRKAI
+    cout << "ID: " << studentIDs[ACTUAL_REGISTERS-1] << ", Name: " << studentNames[ACTUAL_REGISTERS-1] <<", Faculty: " << studentFaculty[ACTUAL_REGISTERS-1] << endl; }  ///MASRKAI
 }//////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // Define the Course class
