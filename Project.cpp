@@ -17,7 +17,6 @@ void ClearTerminal() {  // Ergonomics
  #endif
  }                      ///MASRKAI
 /////////////////////////////////
-
 #ifdef _WIN32       //--System Integrity & Cross platform support
  #include <windows.h>
  #define RESET_COLOR SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE)
@@ -25,7 +24,6 @@ void ClearTerminal() {  // Ergonomics
  #define RESET_COLOR "\033[0m"
  #endif                                                                                                                   ///MASRKAI
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 // Function to print colored and bold text
 void printColor(const string& color, const string& text, bool bold = false) {
  #define RED     "\033[31m"                                   //Defining color
@@ -37,8 +35,6 @@ void printColor(const string& color, const string& text, bool bold = false) {
  #define BOLD    "\033[1m"
                 cout << (bold ? BOLD : "") << color << text << RESET_COLOR; } ///MASRKAI
 ////////////////////////////////////////////////////////////////////////////////////////
-
-
 void Limiter() {
     printColor(RED, "Limiter is Active", true);
     for (int i = 0; i <= 9; ++i){
@@ -60,72 +56,81 @@ void Limiter() {
         cout.flush(); }
         this_thread::sleep_for(chrono::milliseconds(100)); }                                         ///MASRKAI
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 // Function to display the menu
 void displayMenu() {
     printColor(GREEN,"\n***** Welcome to GU SIS *****\n",true);
-    printColor(BLUE ,"1. Add new student\n",false);
-    printColor(BLUE ,"2. Register subjects for a student\n",false);
-    printColor(BLUE ,"3. Change subjects for a student\n",false);
-    printColor(BLUE ,"4. Add new subject code\n",false);
-    printColor(BLUE ,"5. View enrolled courses for a student\n",false);
-    printColor(BLUE ,"6. Calculate GPA for a student\n",false);
-    printColor(BLUE ,"7. Exit\n",false); }                   ///MASRKAI
+    printColor(BLUE ,"1. List all students\n",false);
+    printColor(BLUE ,"2. Add new student\n",false);
+    printColor(BLUE ,"3. Register subjects for a student\n",false);
+    printColor(BLUE ,"4. Change subjects for a student\n",false);
+    printColor(BLUE ,"5. Add new subject code\n",false);
+    printColor(BLUE ,"6. View enrolled courses for a student\n",false);
+    printColor(BLUE ,"7. Calculate GPA for a student\n",false);
+    printColor(BLUE ,"8. Exit\n",false); }                   ///MASRKAI
 ////////////////////////////////////////////////////////////////////////////////////////
-
-
-struct Student{
+class Student {
+  private:
     string ID;
     string name;
-    string faculty; };
+    string faculty;
 
-    int ACTUAL_REGISTERS = 0;
-    const int NUM_FACULTIES = 4, MAX_STUDENTS = 100 ;
-    string Pre_Def_Fac[NUM_FACULTIES] = {"Computer Science", "Engineering", "Human Rights", "Arts and Design"};
+  public:
+    // Constructor
+    Student(string id, string n, string fac) : ID(id), name(n), faculty(fac) {}
 
-// Function to handle faculty selection
-string chooseFaculty(const string faculties[], int F_nums) {
-    int facultyChoice;
-    cout << "Faculty:\n";
-    for (int j = 0; j < F_nums; ++j) {
-        cout << j + 1 << ". " << faculties[j] << endl;
-    }
-    cout << "Enter a number (1-" << F_nums << ") to choose a faculty: ";
-    cin >> facultyChoice;
-    while (facultyChoice < 1 || facultyChoice > F_nums) {
-        cout << "Invalid faculty choice. Please enter a number between 1 and " << F_nums << ": ";
+    // Getters
+    string getID() const { return ID; }
+    string getName() const { return name; }
+    string getFaculty() const { return faculty; }
+};
+
+class University {
+  private:
+    const int MAX_STUDENTS = 100;
+    const vector<string> Pre_Def_Fac = {"Computer Science", "Engineering", "Human Rights", "Arts and Design"};
+    vector<Student> students;
+
+  public:
+    // Function to handle faculty selection
+    string chooseFaculty() const {
+        int facultyChoice;
+        cout << "Faculty:\n";
+        for (size_t j = 0; j < Pre_Def_Fac.size(); ++j) {
+            cout << j + 1 << ". " << Pre_Def_Fac[j] << endl;
+        }
+        cout << "Enter a number (1-" << Pre_Def_Fac.size() << ") to choose a faculty: ";
         cin >> facultyChoice;
-    }
-    return faculties[facultyChoice - 1];
-}
+        while (facultyChoice < 1 || facultyChoice > Pre_Def_Fac.size()) {
+            cout << "Invalid faculty choice. Please enter a number between 1 and " << Pre_Def_Fac.size() << ": ";
+            cin >> facultyChoice;
+        }
+        return Pre_Def_Fac[facultyChoice - 1]; }
 
-// Function to add a new student
-void addStudent(Student students[], int& numStudents) {
-    if (numStudents >= MAX_STUDENTS) {
-        cout << "Maximum number of students reached." << endl;
-        return;
-    }
-    Student newStudent;
-    cout << "\nEnter information for student " << numStudents + 1 << ":" << endl;
-    cout << "ID: ";
-    cin >> newStudent.ID;
-    // Validate ID uniqueness (you can implement this)
-    cout << "Name: ";
-    cin.ignore();
-    getline(cin, newStudent.name);
-    newStudent.faculty = chooseFaculty(Pre_Def_Fac, NUM_FACULTIES);
-    students[numStudents] = newStudent;
-    numStudents++;
-    cout << "Successfully Registered." << endl;
-}
+    // Function to add a new student
+    void addStudent() {
+        if (students.size() >= MAX_STUDENTS) {
+            cout << "Maximum number of students reached." << endl;
+            return; }
 
-// Function to display student information
-void displayStudents(const Student students[], int numStudents) {
-    cout << "\nStudents Information:\n";
-    for (int i = 0; i < numStudents; ++i) {
-        cout << "ID: " << students[i].ID << ", Name: " << students[i].name << ", Faculty: " << students[i].faculty << endl; }}///MASRKAI
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        string id, name;
+        cout << "\nEnter information for student " << students.size() + 1 << ":" << endl;
+        cout << "ID: ";
+        cin >> id;
+        // Validate ID uniqueness (you can implement this)
+        cout << "Name: ";
+        cin.ignore();
+        getline(cin, name);
+        string faculty = chooseFaculty();
+        students.push_back(Student(id, name, faculty));
+        cout << "Successfully Registered." << endl;
+    }
+
+    // Function to display student information
+    void displayStudents() const {
+        cout << "\nStudents Information:\n";
+        for (const auto& student : students) {
+            cout << "ID: " << student.getID() << ", Name: " << student.getName() << ", Faculty: " << student.getFaculty() << endl; } } }; ///MASRKAI
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 // Define the Course class
@@ -187,8 +192,8 @@ class Course {
 
 
 int main() {
+    University university;
     int choice;
-    Student students[MAX_STUDENTS];
     int numStudents = 0;
 
     do {
@@ -207,33 +212,36 @@ int main() {
 
         switch (choice) {
             case 1:
-                addStudent(students, numStudents);
+                university.displayStudents();
                 break;
             case 2:
-                // Add logic for registering subjects
+                university.addStudent();
                 break;
             case 3:
-                // Add logic for changing subjects
+                // Add logic for Registering subjects for student
                 break;
             case 4:
-                // Add logic for adding new subject code
+                // Add logic for changing subjects
                 break;
             case 5:
-                // Add logic for viewing enrolled courses
+                // Add logic for adding new subject code
                 break;
             case 6:
-                // Add logic for calculating GPA
+                // Add logic for viewing enrolled courses
                 break;
             case 7:
+                // Add logic for calculating GPA
+                break;
+            case 8:
                 cout << "Exiting the program. Goodbye!\n"; Limiter(); ClearTerminal();
                 break;
             default:
                 cout << "Invalid choice. Please try again ~ "; Limiter(); ClearTerminal();
                 break; }
-    } while (choice != 7);
+    } while (choice != 8);
 
     // Display student information before exiting
-    displayStudents(students, numStudents);
+    university.displayStudents();
 
     return 0;
 }
