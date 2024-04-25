@@ -74,15 +74,15 @@ void displayMenu() {
     printColor(BLUE ,"7. Exit\n",false); }                   ///MASRKAI
 ////////////////////////////////////////////////////////////////////////////////////////
 
-const int MAX_STUDENTS = 100;
-int ACTUAL_REGISTERS = 0;
+
 struct Student{
     string ID;
     string name;
     string faculty; };
 
-const int NUM_FACULTIES = 4;
-string Pre_Def_Fac[NUM_FACULTIES] = {"Computer Science", "Engineering", "Human Rights", "Arts and Design"};
+    int ACTUAL_REGISTERS = 0;
+    const int NUM_FACULTIES = 4, MAX_STUDENTS = 100 ;
+    string Pre_Def_Fac[NUM_FACULTIES] = {"Computer Science", "Engineering", "Human Rights", "Arts and Design"};
 
 // Function to handle faculty selection
 string chooseFaculty(const string faculties[], int F_nums) {
