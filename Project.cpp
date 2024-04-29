@@ -99,11 +99,12 @@ class University {
             cout << j + 1 << ". " << Pre_Def_Fac[j] << endl;
         }
         cout << "Enter a number (1-" << Pre_Def_Fac.size() << ") to choose a faculty: ";
+FAC:
         cin >> facultyChoice;
-        while (facultyChoice < 1 || facultyChoice > Pre_Def_Fac.size()) {
+        if (facultyChoice < 1 || facultyChoice > Pre_Def_Fac.size()) {
             cout << "Invalid faculty choice. Please enter a number between 1 and " << Pre_Def_Fac.size() << ": ";
-            cin >> facultyChoice;
-        }
+        goto FAC; }
+
         return Pre_Def_Fac[facultyChoice - 1]; }
 
     // Function to add a new student
@@ -129,8 +130,8 @@ class University {
     void displayStudents() const {
         cout << "\nStudents Information:\n";
         for (const auto& student : students) {
-            cout << "ID: " << student.getID() << ", Name: " << student.getName() << ", Faculty: " << student.getFaculty() << endl; } } }; ///MASRKAI
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            cout << "ID: " << student.getID() << ", Name: " << student.getName() << ", Faculty: " << student.getFaculty() << endl; } } }; ///MASRKAI  X  Mariam
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 // Define the Course class
@@ -207,8 +208,7 @@ int main() {
             cout << "Invalid input. Please enter a number (1-7): ";
             Limiter();
             ClearTerminal();
-            continue;
-        }
+            continue; }
 
         switch (choice) {
             case 1:
