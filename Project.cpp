@@ -256,8 +256,8 @@ class University {
         gpa.enterGrade(numSubjects);
         gpa.evaluate();
         cout << "GPA for student " << students[studentIndex - 1].getName() << " ("
-        << students[studentIndex - 1].getID() << "): " << gpa.TotalGpa() << endl; } };          //MASRKAI
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
+        << students[studentIndex - 1].getID() << "): " << gpa.TotalGpa() << endl; } };          //MASRKAI x Mariam
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //Pending
 //--Fn to change subjects for a student
