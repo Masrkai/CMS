@@ -1,9 +1,9 @@
 //College-management-System
-  //Contributors:- 
+  //Contributors:-
   /* {
   Ahmed Allam ~ Masrkai //AIS
   Mariam Othman         //AIS
-  
+
   } */
 ////////
 //Libraries used
