@@ -8,7 +8,9 @@
 ////////
 //Libraries used
 #include <iostream>
+ #include <stdlib.h>
  #include <string>
+ #include <array>
  #include <vector>
  #include <cmath>
  #include <cstdlib>  // For system function
@@ -279,22 +281,30 @@ class University {
 ////////////////////////////////////////////////////////////////////////
 
 int main() {
+    //-->>Functions
     ClearTerminal();
-    University university; GPA GNU;
+
+    //-->>Classes diff
+    University university;
+    GPA GNU;
+    // ! Don't mess with the classes
+
+    //-->>Values
     int choice, numStudents = 0;
 
-    do {
-        displayMenu();
-        cout << "Enter your choice: ";
-        cin >> choice;
+    //-->>Menu Loop
+    do {  displayMenu();
+          cout << "Enter your choice: ";
+          cin >> choice;
 
-        if (cin.fail()) {
+            if (cin.fail()) {
             cin.clear();
             cin.ignore(256, '\n');
             cout << "Invalid input. Please enter a number (1-9): ";
             Limiter();
             ClearTerminal();
-            continue; }
+            continue;
+    }
 
         switch (choice) {
             case 1:
@@ -302,22 +312,22 @@ int main() {
             case 2:
                 university.addStudent();                            break;
             case 3:
-                // Add logic for Registering subjects for student
+                // TODO: Add logic for Registering subjects for student
                 break;
             case 4:
-                // Add logic for changing subjects
+                // TODO: Add logic for changing subjects
                 break;
             case 5:
-                // Add logic for adding new subject code
+                // TODO: Add logic for adding new subject code
                 break;
             case 6:
-                // Add logic for viewing enrolled courses
+                // TODO: Add logic for viewing enrolled courses
                 break;
             case 7:
                 university.calculateAndDisplayGPA();                break;
             case 8:
-                printColor(MAGENTA,"Clearing your Terminal", true   ); CLimiter(); ClearTerminal();
-                break;
+                printColor(MAGENTA,"Clearing your Terminal", true   );
+                CLimiter(); ClearTerminal(); break;
              case 9:
                 cout << "Exiting the program. Goodbye!\n"; Limiter(); ClearTerminal();
                 break;
@@ -326,6 +336,6 @@ int main() {
                 break; }
     } while (choice != 9);
 
-    //-->Display student information before exiting
-    university.displayStudents(); return 0; }                                        //MASRKAI
+//-->Display student information before exiting
+university.displayStudents(); return 0; }                                            //MASRKAI
 //////////////////////////////////////////////////////////////////////////////////////////////
