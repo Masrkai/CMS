@@ -13,7 +13,7 @@
  #include <array>
  #include <vector>
  #include <cmath>
- #include <cstdlib>  // For system function
+ #include <cstdlib>   // For system function
  #include <chrono>    // For delay
  #include <thread>    // For delay
  using namespace std; ///MASRKAI
@@ -25,7 +25,7 @@ void ClearTerminal() {  // Ergonomics
  #else
      system("clear");
  #endif
- }                      ///MASRKAI
+ }                       ///MASRKAI
 /////////////////////////////////
 
 #ifdef _WIN32       //--System Integrity & Cross platform support
@@ -38,70 +38,71 @@ void ClearTerminal() {  // Ergonomics
 
 // Function to print colored and bold text
 void printColor(const string& color, const string& text, bool bold = false) {
- #define RED     "\033[31m"                                   //Defining color
- #define GREEN   "\033[32m"
- #define YELLOW  "\033[33m"
- #define BLUE    "\033[34m"
- #define MAGENTA "\033[35m"
- #define CYAN    "\033[36m"
- #define BOLD    "\033[1m"
+ #define RED     "\033[31m" //Defining Red
+ #define GREEN   "\033[32m" //Defining Green
+ #define YELLOW  "\033[33m" //Defining Yellow
+ #define BLUE    "\033[34m" //Defining Blue
+ #define MAGENTA "\033[35m" //Defining Magenta
+ #define CYAN    "\033[36m" //Defining Cyan
+ #define BOLD    "\033[1m"  //Defining Bold
+
                 cout << (bold ? BOLD : "") << color << text << RESET_COLOR; } ///MASRKAI
 ////////////////////////////////////////////////////////////////////////////////////////
 
-void Limiter() {
-    printColor(RED, "Limiter is Active", true);
-    for (int i = 0; i <= 9; ++i){
-        cout << " -"; // --- -
-        this_thread::sleep_for(chrono::milliseconds(100));
-        cout << "\b\b";
-        cout.flush();
-        cout << " /"; // --- /
-        this_thread::sleep_for(chrono::milliseconds(100));
-        cout << "\b\b";
-        cout.flush();
-        cout << " |"; // --- |
-        this_thread::sleep_for(chrono::milliseconds(100));
-        cout << "\b\b";
-        cout.flush();
- //cout << " \\"; // --- "\\"  BLOCKING OUT FOR ANIMATION LIKE BEHAVIOR literally a bug into a feature XD
-        this_thread::sleep_for(chrono::milliseconds(100));
-        cout << "\b\b";
-        cout.flush(); }
-        this_thread::sleep_for(chrono::milliseconds(100)); }                                  ///MASRKAI
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+class LimiterBase {
 
-void CLimiter() {
-    for (int i = 0; i <= 11; ++i){
-        cout << " -"; // --- -
-        this_thread::sleep_for(chrono::milliseconds(50));
-        cout << "\b\b";
-        cout.flush();
-        cout << " /"; // --- /
-        this_thread::sleep_for(chrono::milliseconds(50));
-        cout << "\b\b";
-        cout.flush();
-        cout << " |"; // --- |
-        this_thread::sleep_for(chrono::milliseconds(50));
-        cout << "\b\b";
-        cout.flush();
-        this_thread::sleep_for(chrono::milliseconds(50));
-        cout << "\b\b";
-        cout.flush(); }
-        this_thread::sleep_for(chrono::milliseconds(50)); } ///MASRKAI
-/////////////////////////////////////////////////////////////////////////////////
+ protected:
+    virtual void drawFrame(char c1, char c2, char c3, int milliseconds) {
+         for (int i = 0; i <= 9; ++i) {
+            cout << " " << c1;
+            this_thread::sleep_for(chrono::milliseconds(milliseconds));
+            cout << "\b\b"; // Erase the character
+            cout.flush();
+            cout << " " << c2;
+            this_thread::sleep_for(chrono::milliseconds(milliseconds));
+            cout << "\b\b"; // Erase the character
+            cout.flush();
+            cout << " " << c3;
+            this_thread::sleep_for(chrono::milliseconds(milliseconds));
+            cout << "\b\b"; // Erase the character
 
-// Function to display the menu
+            // ! Erasing animation
+            this_thread::sleep_for(chrono::milliseconds(100));
+            cout << "\b\b";
+            cout.flush(); }
+            this_thread::sleep_for(chrono::milliseconds(milliseconds)); }
+
+  public:
+    virtual void start() = 0; };                                                  //MASRKAI
+///////////////////////////////////////////////////////////////////////////////////////////
+
+class Limiter : public LimiterBase {
+  public:
+    void start() override {
+        printColor(RED, "Limiter is Active", true);
+        drawFrame('-', '/', '|', 100);
+        ClearTerminal(); } };                                    ///MASRKAI
+//////////////////////////////////////////////////////////////////////////
+
+class CLimiter : public LimiterBase {
+  public:
+    void start() override {
+        drawFrame('-', '/', '|', 50);
+        ClearTerminal(); } };                                    ///MASRKAI
+//////////////////////////////////////////////////////////////////////////
+
+ // Fn to display the menu
 void displayMenu() {
-    printColor(GREEN,"\n***** Welcome to GU SIS *****\n",true);
-    printColor(BLUE ,"1. List all students\n",false);
-    printColor(BLUE ,"2. Add new student\n",false);
-    printColor(BLUE ,"3. Register subjects for a student\n",false);
-    printColor(BLUE ,"4. Change subjects for a student\n",false);
-    printColor(BLUE ,"5. Add new subject code\n",false);
-    printColor(BLUE ,"6. View enrolled courses for a student\n",false);
-    printColor(BLUE ,"7. Calculate GPA for a student\n",false);
-    printColor(YELLOW ,"8. Clean Terminal\n",false);
-    printColor(RED ,"9. Exit\n",false);       }                ///MASRKAI
+ printColor(GREEN,"\n***** Welcome to GU SIS *****\n",true);
+ printColor(BLUE ,"1. List all students\n",false);
+ printColor(BLUE ,"2. Add new student\n",false);
+ printColor(BLUE ,"3. Register subjects for a student\n",false);
+ printColor(BLUE ,"4. Change subjects for a student\n",false);
+ printColor(BLUE ,"5. Add new subject code\n",false);
+ printColor(BLUE ,"6. View enrolled courses for a student\n",false);
+ printColor(BLUE ,"7. Calculate GPA for a student\n",false);
+ printColor(YELLOW ,"8. Clean Terminal\n",false);
+ printColor(RED ,"9. Exit\n",false);       }                ///MASRKAI
 //////////////////////////////////////////////////////////////////////////////////////////
 
 class Student {
@@ -127,7 +128,7 @@ class GPA {
     int totalCredit;
     float gpaSum;
 
- public:
+  public:
     void enterGrade(int number_of_subjects) {
         totalCredit = 0;
         for (int i = 0; i < number_of_subjects; i++) {
@@ -285,8 +286,10 @@ int main() {
     ClearTerminal();
 
     //-->>Classes diff
-    University university;
-    GPA GNU;
+    class University university;
+    class GPA GNU;
+    class Limiter L;
+    class CLimiter CL;
     // ! Don't mess with the classes
 
     //-->>Values
@@ -301,7 +304,7 @@ int main() {
             cin.clear();
             cin.ignore(256, '\n');
             cout << "Invalid input. Please enter a number (1-9): ";
-            Limiter();
+            L.start();
             ClearTerminal();
             continue;
     }
@@ -326,13 +329,12 @@ int main() {
             case 7:
                 university.calculateAndDisplayGPA();                break;
             case 8:
-                printColor(MAGENTA,"Clearing your Terminal", true   );
-                CLimiter(); ClearTerminal(); break;
+                printColor(MAGENTA,"Clearing your Terminal", true); CL.start();  break;
              case 9:
-                cout << "Exiting the program. Goodbye!\n"; Limiter(); ClearTerminal();
+                cout << "Exiting the program. Goodbye!\n"; L.start();
                 break;
             default:
-                cout << "Invalid choice. Please try again ~ "; Limiter(); ClearTerminal();
+                cout << "Invalid choice. Please try again ~ "; L.start();
                 break; }
     } while (choice != 9);
 
