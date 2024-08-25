@@ -3,4 +3,3 @@
 *.h linguist-language=C++
 
 *.nix linguist-language=Nix
-*.txt linguist-language=Cmake
